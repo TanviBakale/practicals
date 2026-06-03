@@ -1,0 +1,93 @@
+# Introduction to CodeChef
+
+CodeChef is an online competitive programming platform where programmers can practice coding, participate in contests, and improve their problem-solving skills. It provides problems of different difficulty levels and supports various programming languages such as C, C++, Java, and Python.
+
+CodeChef helps students develop logical thinking, algorithm design, debugging skills, and coding efficiency. It is widely used by beginners as well as professional programmers to prepare for coding interviews and programming competitions.
+
+---
+
+# Program 1: Add Two Numbers
+
+## Theory
+
+This is one of the simplest programming problems on CodeChef. The objective is to read two integers and print their sum. The program demonstrates the use of input/output statements, variables, and arithmetic operators.
+
+## Program
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int a, b;
+
+    scanf("%d %d", &a, &b);
+
+    printf("%d\n", a + b);
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+10 20
+```
+
+### Sample Output
+
+```text
+30
+```
+
+## Conclusion
+
+The program successfully accepts two numbers from the user and displays their sum. It demonstrates the basic use of arithmetic operations and input/output functions in C.
+
+---
+
+# Program 2: Find Remainder
+
+## Theory
+
+This program finds the remainder when one number is divided by another number. The modulus (%) operator is used to obtain the remainder after division.
+
+## Program
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int a, b;
+
+    scanf("%d %d", &a, &b);
+
+    printf("%d\n", a % b);
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+17 5
+```
+
+### Sample Output
+
+```text
+2
+```
+
+## Conclusion
+
+The program successfully calculates and displays the remainder obtained after dividing one number by another. It demonstrates the use of the modulus operator in C programming.
+
+---
+
+# Overall Conclusion
+
+CodeChef provides an excellent platform for learning and practicing programming. The above programs demonstrate basic concepts such as arithmetic operations, input/output handling, and operators. Solving such problems helps students build a strong foundation in competitive programming and problem-solving skills.

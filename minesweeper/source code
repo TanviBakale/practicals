@@ -1,557 +1,72 @@
-/******************************************************************************
+# Program 2: Minesweeper
 
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
+## C Program
 
-*******************************************************************************/
-# Practical 1: Program 2 – Minesweeper
-
-## Program Code
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-
-using namespace std;
-
-int countMines(const vector<string>& minefield, int i, int j)
-{
-    int count = 0;
-
-    for (int di = -1; di <= 1; di++)
-    {
-        for (int dj = -1; dj <= 1; dj++)
-        {
-            int ni = i + di;
-            int nj = j + dj;
-
-            if (ni >= 0 &&
-                ni < minefield.size() &&
-                nj >= 0 &&
-                nj < minefield[0].size() &&
-                minefield[ni][nj] == '*')
-            {
-                count++;
-            }
-        }
-    }
-
-    return count;
-}
+```c
+#include <stdio.h>
 
 int main()
 {
-    int fieldCount = 1;
+    int n, m;
+    int field = 1;
 
-    while (true)
+    while (1)
     {
-        int rows, columns;
+        scanf("%d %d", &n, &m);
 
-        cin >> rows >> columns;
-
-        if (rows == 0 && columns == 0)
-        {
+        if (n == 0 && m == 0)
             break;
-        }
 
-        if (fieldCount > 1)
+        char a[105][105];
+        int ans[105][105] = {0};
+
+        for (int i = 0; i < n; i++)
+            scanf("%s", a[i]);
+
+        for (int i = 0; i < n; i++)
         {
-            cout << endl;
-        }
-
-        vector<string> minefield(rows);
-
-        for (int i = 0; i < rows; i++)
-        {
-            cin >> minefield[i];
-        }
-
-        cout << "Field #" << fieldCount << ":" << endl;
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < m; j++)
             {
-                if (minefield[i][j] == '*')
+                if (a[i][j] == '*')
                 {
-                    cout << '*';
-                }
-                else
-                {
-                    int count = countMines(minefield, i, j);
-                    cout << count;
+                    ans[i][j] = -1;
+
+                    for (int x = i - 1; x <= i + 1; x++)
+                    {
+                        for (int y = j - 1; y <= j + 1; y++)
+                        {
+                            if (x >= 0 && x < n && y >= 0 && y < m)
+                            {
+                                if (ans[x][y] != -1)
+                                    ans[x][y]++;
+                            }
+                        }
+                    }
                 }
             }
-
-            cout << endl;
         }
 
-        fieldCount++;
+        if (field > 1)
+            printf("\n");
+
+        printf("Field #%d:\n", field++);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                if (ans[i][j] == -1)
+                    printf("*");
+                else
+                    printf("%d", ans[i][j]);
+            }
+            printf("\n");
+        }
     }
 
     return 0;
 }
 ```
-
----
-
-# Aim / Objective
-
-The objective of this practical is to implement the Minesweeper problem using C++. The program reads a minefield consisting of mines (*) and safe cells (.) and generates an output field where each safe cell is replaced by the number of mines present in its neighboring cells.
-
-This practical helps students understand:
-
-* Two-Dimensional Arrays and Matrices
-* String Handling
-* Functions
-* Nested Loops
-* Conditional Statements
-* Boundary Checking
-* Competitive Programming Techniques
-
-The experiment also develops logical thinking and problem-solving skills by working with grid-based data structures.
-
----
-
-# Theory
-
-Minesweeper is a famous puzzle game in which some cells contain hidden mines and other cells are safe.
-
-The goal is to identify mines using the numbers displayed on safe cells. Each number indicates how many mines are present in the surrounding neighboring cells.
-
-A cell can have a maximum of eight neighboring cells.
-
-```text
-↖ ↑ ↗
-← X →
-↙ ↓ ↘
-```
-
-Where X is the current cell.
-
-The neighboring positions are:
-
-1. Top Left
-2. Top
-3. Top Right
-4. Left
-5. Right
-6. Bottom Left
-7. Bottom
-8. Bottom Right
-
-If a cell contains a mine (*), it remains unchanged.
-
-If the cell is safe (.), the program counts all mines present in the surrounding eight cells and displays the count.
-
----
-
-## Example
-
-### Input
-
-```text
-*...
-....
-.*..
-....
-```
-
-### Output
-
-```text
-*100
-2210
-1*10
-1110
-```
-
-### Explanation
-
-* Cell (0,1) has one adjacent mine.
-* Cell (1,0) has two adjacent mines.
-* Cell (2,1) contains a mine.
-* Remaining cells display the number of surrounding mines.
-
-This problem is widely used in competitive programming because it teaches matrix traversal and efficient implementation of neighbor-search algorithms.
-
----
-
-# Problem Statement
-
-Given a minefield containing mines (*) and safe cells (.), generate an output field where every safe cell is replaced by the number of mines present in adjacent cells.
-
-Input terminates when:
-
-```text
-0 0
-```
-
-is encountered.
-
-For every field, display:
-
-```text
-Field #1:
-Field #2:
-```
-
-followed by the processed minefield.
-
----
-
-# Methodology / Algorithm
-
-### Algorithm
-
-### Step 1
-
-Read the number of rows and columns.
-
-### Step 2
-
-If rows and columns are both zero, stop execution.
-
-### Step 3
-
-Store the minefield in a vector of strings.
-
-### Step 4
-
-Traverse every cell of the minefield.
-
-### Step 5
-
-If the current cell contains a mine (*):
-
-* Print '*'.
-
-### Step 6
-
-Otherwise:
-
-* Check all eight neighboring cells.
-* Count the number of mines.
-
-### Step 7
-
-Print the count.
-
-### Step 8
-
-Repeat the process for all cells.
-
-### Step 9
-
-Display the completed minefield.
-
-### Step 10
-
-Process the next field until input ends.
-
----
-
-# Code Explanation
-
-## Header Files
-
-```cpp
-#include <iostream>
-#include <vector>
-#include <string>
-```
-
-### Purpose
-
-* iostream → Input and Output
-* vector → Dynamic array storage
-* string → Store rows of minefield
-
----
-
-## Namespace
-
-```cpp
-using namespace std;
-```
-
-Allows use of standard library functions without writing std:: repeatedly.
-
----
-
-## Function: countMines()
-
-```cpp
-int countMines(const vector<string>& minefield, int i, int j)
-```
-
-### Purpose
-
-Counts the mines surrounding a specific cell.
-
-Parameters:
-
-* minefield → Complete minefield
-* i → Current row
-* j → Current column
-
-Returns:
-
-* Number of neighboring mines
-
----
-
-## Count Variable
-
-```cpp
-int count = 0;
-```
-
-Stores the total number of mines around the current cell.
-
----
-
-## Outer Loop
-
-```cpp
-for(int di=-1; di<=1; di++)
-```
-
-Checks neighboring rows:
-
-```text
--1 = Upper Row
- 0 = Same Row
-+1 = Lower Row
-```
-
----
-
-## Inner Loop
-
-```cpp
-for(int dj=-1; dj<=1; dj++)
-```
-
-Checks neighboring columns:
-
-```text
--1 = Left
- 0 = Center
-+1 = Right
-```
-
-Together these loops inspect all eight neighboring positions.
-
----
-
-## Neighbor Coordinates
-
-```cpp
-int ni = i + di;
-int nj = j + dj;
-```
-
-Calculates coordinates of neighboring cells.
-
-Example:
-
-```text
-Current Cell = (2,3)
-
-Top Right Cell
-
-(2-1,3+1)
-
-(1,4)
-```
-
----
-
-## Boundary Check
-
-```cpp
-if(ni>=0 &&
-   ni<minefield.size() &&
-   nj>=0 &&
-   nj<minefield[0].size())
-```
-
-Ensures that the program does not access locations outside the matrix.
-
-Without this check, the program may crash.
-
----
-
-## Mine Detection
-
-```cpp
-minefield[ni][nj] == '*'
-```
-
-Checks whether neighboring cell contains a mine.
-
-If true:
-
-```cpp
-count++;
-```
-
-Increases mine count.
-
----
-
-## Return Statement
-
-```cpp
-return count;
-```
-
-Returns total neighboring mines.
-
----
-
-# Main Function Explanation
-
-## Field Counter
-
-```cpp
-int fieldCount = 1;
-```
-
-Tracks field number.
-
-Example:
-
-```text
-Field #1:
-Field #2:
-```
-
----
-
-## Infinite Loop
-
-```cpp
-while(true)
-```
-
-Allows processing multiple minefields.
-
----
-
-## Input
-
-```cpp
-cin >> rows >> columns;
-```
-
-Reads dimensions of minefield.
-
----
-
-## Exit Condition
-
-```cpp
-if(rows==0 && columns==0)
-break;
-```
-
-Stops program execution.
-
----
-
-## Creating Minefield
-
-```cpp
-vector<string> minefield(rows);
-```
-
-Stores all rows of the minefield.
-
----
-
-## Reading Minefield
-
-```cpp
-for(int i=0;i<rows;i++)
-{
-    cin>>minefield[i];
-}
-```
-
-Reads each row.
-
----
-
-## Printing Field Number
-
-```cpp
-cout<<"Field #"<<fieldCount<<":"<<endl;
-```
-
-Displays field heading.
-
----
-
-## Traversing Entire Grid
-
-```cpp
-for(int i=0;i<rows;i++)
-```
-
-Moves row by row.
-
-```cpp
-for(int j=0;j<columns;j++)
-```
-
-Moves column by column.
-
----
-
-## Mine Check
-
-```cpp
-if(minefield[i][j]=='*')
-```
-
-If cell contains mine:
-
-```cpp
-cout<<"*";
-```
-
-Prints mine directly.
-
----
-
-## Safe Cell
-
-```cpp
-int count=countMines(minefield,i,j);
-```
-
-Calculates surrounding mines.
-
-```cpp
-cout<<count;
-```
-
-Displays count.
-
----
-
-## Next Field
-
-```cpp
-fieldCount++;
-```
-
-Increases field number.
 
 ---
 
@@ -591,11 +106,115 @@ Field #2:
 
 ---
 
+# Objective
+
+To write a C program that simulates the Minesweeper game and calculates the number of mines surrounding each cell in a minefield.
+
+---
+
+# Theory
+
+Minesweeper is a popular puzzle game played on a rectangular grid. Some cells contain mines while other cells are empty. The objective is to determine how many mines surround each empty cell.
+
+In this problem:
+
+* `*` represents a mine.
+* `.` represents an empty cell.
+* For every empty cell, the program counts the number of mines present in the surrounding eight neighboring cells.
+
+The eight neighboring positions are:
+
+```text
+Top Left      Top      Top Right
+
+Left         Cell       Right
+
+Bottom Left Bottom Bottom Right
+```
+
+For example:
+
+```text
+*...
+....
+.*..
+....
+```
+
+The mine at the first row affects its neighboring cells. Similarly, the second mine affects all adjacent cells around it. After counting all neighboring mines, the output grid becomes:
+
+```text
+*100
+2210
+1*10
+1110
+```
+
+The Minesweeper problem is widely used in Competitive Programming because it teaches students how to work with:
+
+* Two-dimensional arrays
+* Matrix traversal
+* Nested loops
+* Neighbor checking
+* Boundary conditions
+
+This problem is a good example of simulation using matrices.
+
+---
+
+# Algorithm
+
+1. Read the number of rows and columns.
+2. Stop if both values are zero.
+3. Store the minefield in a 2D array.
+4. Create another array to store counts.
+5. Traverse each cell.
+6. If a mine (`*`) is found:
+
+   * Mark that position.
+   * Visit all eight neighboring cells.
+   * Increase their count by one.
+7. After processing all mines:
+
+   * Print `*` for mine cells.
+   * Print count for non-mine cells.
+8. Repeat for the next field.
+
+---
+
+# Explanation of Sample Input
+
+Input:
+
+```text
+4 4
+*...
+....
+.*..
+....
+```
+
+Mines are located at:
+
+```text
+(1,1)
+(3,2)
+```
+
+The program checks all neighboring positions around each mine and updates the counts.
+
+Result:
+
+```text
+*100
+2210
+1*10
+1110
+```
+
+---
+
 # Time Complexity
-
-For every cell, at most 8 neighboring cells are checked.
-
-### Time Complexity
 
 ```text
 O(n × m)
@@ -603,45 +222,21 @@ O(n × m)
 
 where:
 
-* n = rows
-* m = columns
+* `n` = number of rows
+* `m` = number of columns
 
-### Space Complexity
+---
+
+# Space Complexity
 
 ```text
 O(n × m)
 ```
 
-because the minefield is stored in memory.
-
----
-
-# Advantages
-
-1. Simple and efficient solution.
-2. Demonstrates matrix traversal.
-3. Uses boundary checking.
-4. Improves logical thinking.
-5. Useful in competitive programming.
-
----
-
-# Applications
-
-1. Minesweeper Game Development
-2. Matrix Processing
-3. Image Processing
-4. Grid-Based Simulations
-5. Competitive Programming Contests
-
----
-
-# Result
-
-The program was successfully implemented and executed. It correctly identified mines and calculated the number of neighboring mines for every safe cell in the minefield.
+because two 2D arrays are used.
 
 ---
 
 # Conclusion
 
-Thus, the Minesweeper problem was successfully implemented using C++. The program correctly traversed the minefield, identified mines, counted neighboring mines, and generated the required output. Through this experiment, important concepts such as vectors, strings, nested loops, functions, matrix traversal, and boundary checking were learned and applied effectively. The practical enhanced problem-solving skills and provided experience in solving real-world competitive programming problems.
+The Minesweeper program successfully calculates the number of neighboring mines for every cell in a given minefield. It demonstrates the use of two-dimensional arrays, matrix traversal, nested loops, and simulation techniques. This problem is important in Competitive Programming as it develops problem-solving skills related to grids and neighboring cell operations.

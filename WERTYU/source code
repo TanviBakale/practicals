@@ -1,14 +1,8 @@
-/******************************************************************************
+# PRACTICAL 5
 
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
+# Program 1: WERTYU (UVa 10082)
 
-*******************************************************************************/
-For UVa 10082 **"WERTYU"**, the task is to replace every character with the key immediately to its left on a standard keyboard.
-
-A simple student-style C solution:
+## C Program
 
 ```c
 #include <stdio.h>
@@ -16,26 +10,25 @@ A simple student-style C solution:
 
 int main()
 {
-    char keyboard[] = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
-    char line[1000];
+    char keyboard[] =
+    "`1234567890-=WERTYUIOP[]\\SDFGHJKL;'XCVBNM,./";
 
-    while(fgets(line, sizeof(line), stdin))
+    char ch;
+
+    while((ch = getchar()) != EOF)
     {
-        for(int i = 0; line[i] != '\0'; i++)
+        if(ch == ' ' || ch == '\n')
         {
-            if(line[i] == ' ')
-            {
-                printf(" ");
-                continue;
-            }
+            putchar(ch);
+            continue;
+        }
 
-            for(int j = 0; keyboard[j] != '\0'; j++)
+        for(int i = 1; i < strlen(keyboard); i++)
+        {
+            if(keyboard[i] == ch)
             {
-                if(line[i] == keyboard[j])
-                {
-                    printf("%c", keyboard[j - 1]);
-                    break;
-                }
+                putchar(keyboard[i - 1]);
+                break;
             }
         }
     }
@@ -44,24 +37,112 @@ int main()
 }
 ```
 
-### Sample Input
+---
+
+# Sample Input
 
 ```text
 O S, GOMR YPFSU/
 ```
 
-### Sample Output
+---
+
+# Sample Output
 
 ```text
 I AM FINE TODAY.
 ```
 
-### Idea
+---
 
-* Store the keyboard layout in a string.
-* For each input character:
+# Theory
 
-  * If it's a space, print a space.
-  * Otherwise, find it in the keyboard string and print the character just before it.
+The WERTYU problem is a simple keyboard decoding problem. It is based on the assumption that a typist accidentally presses keys one position to the right of the intended key on a standard keyboard.
 
-This is a very common beginner-friendly UVa solution and looks naturally student-written.
+The objective of this program is to identify the correct character by replacing every typed character with the key immediately to its left on the keyboard.
+
+The standard keyboard layout used in the problem is:
+
+```text
+`1234567890-=
+QWERTYUIOP[]\
+ASDFGHJKL;'
+ZXCVBNM,./
+```
+
+For example:
+
+```text
+Typed Character     Correct Character
+
+O                   I
+S                   A
+,                   M
+G                   F
+M                   N
+R                   E
+```
+
+Therefore, the encoded message:
+
+```text
+O S, GOMR YPFSU/
+```
+
+is decoded as:
+
+```text
+I AM FINE TODAY.
+```
+
+The program stores the keyboard layout in a string. Each input character is searched in the keyboard string. When found, the character immediately before it is printed. Spaces and newline characters are printed directly without any changes.
+
+This problem helps students understand:
+
+* Character manipulation
+* String handling
+* Searching techniques
+* Keyboard mapping
+* Input and output operations
+
+It is one of the most popular beginner-level Competitive Programming problems because it demonstrates how character substitution can be implemented using simple arrays and loops.
+
+---
+
+# Algorithm
+
+1. Store the keyboard layout in a string.
+2. Read characters one by one.
+3. If the character is a space or newline, print it directly.
+4. Otherwise search for the character in the keyboard string.
+5. Print the character immediately to its left.
+6. Continue until end of input.
+7. Display the decoded message.
+
+---
+
+# Time Complexity
+
+```text
+O(n)
+```
+
+where `n` is the number of input characters.
+
+---
+
+# Space Complexity
+
+```text
+O(1)
+```
+
+because only a fixed-size keyboard string and a few variables are used.
+
+---
+
+# Result
+
+```text
+The program successfully decodes the keyboard input by replacing every character with the key immediately to its left and displays the original message correctly.
+```

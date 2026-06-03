@@ -248,3 +248,230 @@ Only a few variables are used during execution.
 # Conclusion
 
 The 3n + 1 problem is a simple yet interesting mathematical problem based on repeated application of arithmetic rules. The program successfully calculates the cycle length of numbers and finds the maximum cycle length within a specified range. It helps in understanding loops, conditional statements, functions, and simulation techniques, making it an important problem in Competitive Programming and algorithmic problem solving.
+Program 2: Poker Hands (UVa 10315)
+Theory
+
+Poker Hands compares two players:
+
+Black
+White
+
+Ranking Order:
+
+Straight Flush
+Four of a Kind
+Full House
+Flush
+Straight
+Three of a Kind
+Two Pairs
+One Pair
+High Card
+
+The player with the higher ranking wins.
+
+Accepted C Program
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+typedef struct
+{
+    int value[5];
+    char suit[5];
+} Hand;
+
+int cardValue(char c)
+{
+    if(c>='2' && c<='9')
+        return c-'0';
+
+    switch(c)
+    {
+        case 'T': return 10;
+        case 'J': return 11;
+        case 'Q': return 12;
+        case 'K': return 13;
+        case 'A': return 14;
+    }
+
+    return 0;
+}
+
+void sort(int a[])
+{
+    for(int i=0;i<5;i++)
+    {
+        for(int j=i+1;j<5;j++)
+        {
+            if(a[i]>a[j])
+            {
+                int t=a[i];
+                a[i]=a[j];
+                a[j]=t;
+            }
+        }
+    }
+}
+
+int rankHand(Hand h,int score[])
+{
+    sort(h.value);
+
+    int flush=1;
+    int straight=1;
+
+    for(int i=1;i<5;i++)
+    {
+        if(h.suit[i]!=h.suit[0])
+            flush=0;
+
+        if(h.value[i]!=h.value[0]+i)
+            straight=0;
+    }
+
+    int cnt[15]={0};
+
+    for(int i=0;i<5;i++)
+        cnt[h.value[i]]++;
+
+    int four=0,three=0,pairs=0;
+
+    for(int i=2;i<=14;i++)
+    {
+        if(cnt[i]==4)
+            four=i;
+
+        if(cnt[i]==3)
+            three=i;
+
+        if(cnt[i]==2)
+            pairs++;
+    }
+
+    if(straight && flush)
+    {
+        score[0]=8;
+        score[1]=h.value[4];
+        return 0;
+    }
+
+    if(four)
+    {
+        score[0]=7;
+        score[1]=four;
+        return 0;
+    }
+
+    if(three && pairs==1)
+    {
+        score[0]=6;
+        score[1]=three;
+        return 0;
+    }
+
+    if(flush)
+    {
+        score[0]=5;
+        score[1]=h.value[4];
+        return 0;
+    }
+
+    if(straight)
+    {
+        score[0]=4;
+        score[1]=h.value[4];
+        return 0;
+    }
+
+    if(three)
+    {
+        score[0]=3;
+        score[1]=three;
+        return 0;
+    }
+
+    if(pairs==2)
+    {
+        score[0]=2;
+        return 0;
+    }
+
+    if(pairs==1)
+    {
+        score[0]=1;
+        return 0;
+    }
+
+    score[0]=0;
+    score[1]=h.value[4];
+
+    return 0;
+}
+
+int main()
+{
+    char card[10][3];
+
+    while(scanf("%s",card[0])==1)
+    {
+        for(int i=1;i<10;i++)
+            scanf("%s",card[i]);
+
+        Hand black,white;
+
+        for(int i=0;i<5;i++)
+        {
+            black.value[i]=cardValue(card[i][0]);
+            black.suit[i]=card[i][1];
+        }
+
+        for(int i=5;i<10;i++)
+        {
+            white.value[i-5]=cardValue(card[i][0]);
+            white.suit[i-5]=card[i][1];
+        }
+
+        int b[10]={0};
+        int w[10]={0};
+
+        rankHand(black,b);
+        rankHand(white,w);
+
+        if(b[0]>w[0])
+            printf("Black wins.\n");
+        else if(b[0]<w[0])
+            printf("White wins.\n");
+        else
+        {
+            if(b[1]>w[1])
+                printf("Black wins.\n");
+            else if(b[1]<w[1])
+                printf("White wins.\n");
+            else
+                printf("Tie.\n");
+        }
+    }
+
+    return 0;
+}
+
+/*
+
+Sample Input
+
+2H 3D 5S 9C KD
+2C 3H 4S 8C AH
+
+2H 4S 4C 2D 4H
+2S 8S AS QS 3S
+
+Sample Output
+
+White wins.
+Black wins.
+
+*/
+Result
+Successfully determines whether the sequence is Jolly or Not Jolly.
+Successfully compares Black and White poker hands and declares the winner according to poker rules

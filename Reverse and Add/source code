@@ -1,0 +1,77 @@
+For UVa 10018 **"Reverse and Add"**, a simple student-style C solution is:
+
+```c
+#include <stdio.h>
+
+long long reverseNum(long long n)
+{
+    long long rev = 0;
+
+    while(n > 0)
+    {
+        rev = rev * 10 + n % 10;
+        n /= 10;
+    }
+
+    return rev;
+}
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+
+    while(t--)
+    {
+        long long n;
+        scanf("%lld", &n);
+
+        int count = 0;
+
+        while(1)
+        {
+            long long rev = reverseNum(n);
+
+            if(n == rev)
+                break;
+
+            n = n + rev;
+            count++;
+        }
+
+        printf("%d %lld\n", count, n);
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+3
+195
+265
+750
+```
+
+### Sample Output
+
+```text
+4 9339
+5 45254
+3 6666
+```
+
+### Simple Logic
+
+1. Reverse the number.
+2. Add it to the original number.
+3. Check if the result is a palindrome.
+4. Repeat until a palindrome is obtained.
+5. Print:
+
+   * Number of additions performed
+   * Final palindrome
+
+This version is short, easy to understand, and looks like a typical student competitive-programming submission for UVa 10018.

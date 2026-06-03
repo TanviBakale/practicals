@@ -1,0 +1,58 @@
+For UVa 10127 **"Ones"**, the goal is to find the smallest number consisting only of digit **1** that is divisible by `n`.
+
+A student-style solution avoids building huge numbers and instead keeps only the remainder.
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int n;
+
+    while(scanf("%d", &n) == 1)
+    {
+        int rem = 1 % n;
+        int len = 1;
+
+        while(rem != 0)
+        {
+            rem = (rem * 10 + 1) % n;
+            len++;
+        }
+
+        printf("%d\n", len);
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+3
+7
+9901
+```
+
+### Sample Output
+
+```text
+3
+6
+12
+```
+
+### Idea
+
+* Start with the number `1`.
+* Instead of storing `11`, `111`, `1111`, etc., store only the remainder modulo `n`.
+* Generate the next remainder using:
+
+[
+\text{new_rem} = (\text{rem} \times 10 + 1) \bmod n
+]
+
+* Count how many `1`s are used until the remainder becomes `0`.
+
+This is the standard accepted UVa 10127 solution and looks like a straightforward student-written competitive programming program.

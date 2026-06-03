@@ -1,0 +1,91 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+For UVa 10077 **"The Stern-Brocot Number System"**, the idea is:
+
+* Start with:
+
+  * Left = 0/1
+  * Right = 1/0
+  * Middle = 1/1
+* Compare the target fraction `m/n` with the current middle fraction.
+* If target < middle → print `L`
+* If target > middle → print `R`
+* Update the bounds accordingly.
+* Stop when the middle fraction becomes exactly `m/n`.
+
+Here's a simple student-style C solution:
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    long long m, n;
+
+    while(scanf("%lld %lld", &m, &n))
+    {
+        if(m == 1 && n == 1)
+            break;
+
+        long long ln = 0, ld = 1;
+        long long rn = 1, rd = 0;
+        long long mn = 1, md = 1;
+
+        while(mn != m || md != n)
+        {
+            if(m * md < n * mn)
+            {
+                printf("L");
+
+                rn = mn;
+                rd = md;
+
+                mn = ln + rn;
+                md = ld + rd;
+            }
+            else
+            {
+                printf("R");
+
+                ln = mn;
+                ld = md;
+
+                mn = ln + rn;
+                md = ld + rd;
+            }
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+5 7
+878 323
+1 1
+```
+
+### Sample Output
+
+```text
+LRRL
+RRLRRLRLLLLRLRRR
+```
+
+### Why this looks student-written
+
+* Uses only basic variables and loops.
+* No recursion.
+* Direct implementation of the Stern–Brocot tree traversal.
+* Easy to explain in an exam or viva.

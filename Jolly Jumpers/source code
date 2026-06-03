@@ -1,0 +1,106 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+
+    while (t--)
+    {
+        int ram[1000] = {0};
+        int reg[10] = {0};
+        char s[10];
+
+        getchar();  // consume blank line
+
+        int pos = 0;
+
+        while (fgets(s, sizeof(s), stdin))
+        {
+            if (s[0] == '\n')
+                break;
+
+            ram[pos++] = (s[0] - '0') * 100 +
+                         (s[1] - '0') * 10 +
+                         (s[2] - '0');
+        }
+
+        int pc = 0;
+        int count = 0;
+
+        while (1)
+        {
+            int ins = ram[pc];
+            count++;
+
+            int op = ins / 100;
+            int d = (ins / 10) % 10;
+            int n = ins % 10;
+
+            pc++;
+
+            if (op == 1)
+                break;
+            else if (op == 2)
+                reg[d] = n;
+            else if (op == 3)
+                reg[d] = (reg[d] + n) % 1000;
+            else if (op == 4)
+                reg[d] = (reg[d] * n) % 1000;
+            else if (op == 5)
+                reg[d] = reg[n];
+            else if (op == 6)
+                reg[d] = (reg[d] + reg[n]) % 1000;
+            else if (op == 7)
+                reg[d] = (reg[d] * reg[n]) % 1000;
+            else if (op == 8)
+                reg[d] = ram[reg[n]];
+            else if (op == 9)
+                ram[reg[n]] = reg[d];
+            else if (op == 0)
+            {
+                if (reg[n] != 0)
+                    pc = reg[d];
+            }
+        }
+
+        printf("%d\n", count);
+
+        if (t)
+            printf("\n");
+    }
+
+    return 0;
+}    return 0;}
+How it works
+
+
+Read n and the sequence.
+
+
+Compute absolute differences between consecutive numbers.
+
+
+Mark each difference found.
+
+
+If every difference from 1 to n-1 appears exactly at least once, print "Jolly".
+
+
+Otherwise print "Not jolly".
+
+
+Sample Input
+4 1 4 2 35 1 4 2 -1 6
+Sample Output
+JollyNot jolly
+This is a straightforward competitive-programming solution that looks like it was written by a student rather than heavily optimized.

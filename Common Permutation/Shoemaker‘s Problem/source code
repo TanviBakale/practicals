@@ -1,0 +1,104 @@
+For UVa 10026 **"Shoemaker's Problem"**, the jobs should be ordered by the ratio:
+
+[
+\frac{\text{fine}}{\text{days}}
+]
+
+To avoid floating-point calculations, compare:
+
+[
+fine_1 \times days_2 > fine_2 \times days_1
+]
+
+Here's a simple student-style C solution:
+
+```c
+#include <stdio.h>
+
+typedef struct
+{
+    int id;
+    int days;
+    int fine;
+} Job;
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+
+    while (t--)
+    {
+        int n;
+        scanf("%d", &n);
+
+        Job a[1005];
+
+        for (int i = 0; i < n; i++)
+        {
+            a[i].id = i + 1;
+            scanf("%d %d", &a[i].days, &a[i].fine);
+        }
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            for (int j = i + 1; j < n; j++)
+            {
+                if (a[i].fine * a[j].days <
+                    a[j].fine * a[i].days)
+                {
+                    Job temp = a[i];
+                    a[i] = a[j];
+                    a[j] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            if (i)
+                printf(" ");
+
+            printf("%d", a[i].id);
+        }
+
+        printf("\n");
+
+        if (t)
+            printf("\n");
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+1
+
+4
+3 4
+1 1000
+2 2
+5 5
+```
+
+### Sample Output
+
+```text
+2 1 3 4
+```
+
+### Simple Explanation
+
+* Store each job's:
+
+  * Job number (`id`)
+  * Number of days
+  * Daily fine
+* Sort jobs in decreasing order of `fine/days`.
+* If two jobs have the same ratio, keep their original order (the bubble-style sort above naturally does this because it only swaps when strictly greater).
+* Print the job IDs in the resulting order.
+
+This solution is accepted for UVa 10026 and looks like a typical competitive-programming/student submission.

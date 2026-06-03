@@ -1,0 +1,67 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+For UVa 10082 **"WERTYU"**, the task is to replace every character with the key immediately to its left on a standard keyboard.
+
+A simple student-style C solution:
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char keyboard[] = "`1234567890-=QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./";
+    char line[1000];
+
+    while(fgets(line, sizeof(line), stdin))
+    {
+        for(int i = 0; line[i] != '\0'; i++)
+        {
+            if(line[i] == ' ')
+            {
+                printf(" ");
+                continue;
+            }
+
+            for(int j = 0; keyboard[j] != '\0'; j++)
+            {
+                if(line[i] == keyboard[j])
+                {
+                    printf("%c", keyboard[j - 1]);
+                    break;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+O S, GOMR YPFSU/
+```
+
+### Sample Output
+
+```text
+I AM FINE TODAY.
+```
+
+### Idea
+
+* Store the keyboard layout in a string.
+* For each input character:
+
+  * If it's a space, print a space.
+  * Otherwise, find it in the keyboard string and print the character just before it.
+
+This is a very common beginner-friendly UVa solution and looks naturally student-written.

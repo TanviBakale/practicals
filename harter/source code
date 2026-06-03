@@ -1,0 +1,92 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+For UVa 10050 **"Hartals"**, here's a simple student-style C solution that works on OnlineGDB and looks natural for a competitive programming exam.
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+
+    while(t--)
+    {
+        int n, p;
+        scanf("%d", &n);
+        scanf("%d", &p);
+
+        int hartal[4000] = {0};
+
+        for(int i = 0; i < p; i++)
+        {
+            int h;
+            scanf("%d", &h);
+
+            for(int day = h; day <= n; day += h)
+            {
+                if(day % 7 != 6 && day % 7 != 0)
+                    hartal[day] = 1;
+            }
+        }
+
+        int lost = 0;
+
+        for(int day = 1; day <= n; day++)
+        {
+            if(hartal[day])
+                lost++;
+        }
+
+        printf("%d\n", lost);
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+2
+14
+3
+3
+4
+8
+100
+4
+12
+15
+25
+40
+```
+
+### Sample Output
+
+```text
+5
+15
+```
+
+### Logic
+
+* Create an array to mark strike days.
+* For each political party, mark every `h`-th day.
+* Ignore Fridays and Saturdays:
+
+  * Friday → `day % 7 == 6`
+  * Saturday → `day % 7 == 0`
+* Count all marked working days.
+
+### Time Complexity
+
+* **O(n × p)** in the worst case, which easily passes the UVa limits.
+
+This is the kind of straightforward solution many students submit successfully for UVa 10050.

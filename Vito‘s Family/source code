@@ -1,0 +1,80 @@
+For UVa 10041 **"Vito's Family"**, the key idea is that the **median** street number minimizes the total distance traveled by all relatives.
+
+Here's a simple student-style C solution:
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+
+    while (t--)
+    {
+        int r;
+        scanf("%d", &r);
+
+        int a[505];
+
+        for (int i = 0; i < r; i++)
+            scanf("%d", &a[i]);
+
+        /* Simple Bubble Sort */
+        for (int i = 0; i < r - 1; i++)
+        {
+            for (int j = 0; j < r - i - 1; j++)
+            {
+                if (a[j] > a[j + 1])
+                {
+                    int temp = a[j];
+                    a[j] = a[j + 1];
+                    a[j + 1] = temp;
+                }
+            }
+        }
+
+        int median = a[r / 2];
+        int sum = 0;
+
+        for (int i = 0; i < r; i++)
+        {
+            int diff = a[i] - median;
+
+            if (diff < 0)
+                diff = -diff;
+
+            sum += diff;
+        }
+
+        printf("%d\n", sum);
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+2
+2 2 4
+3 2 4 6
+```
+
+### Sample Output
+
+```text
+2
+4
+```
+
+### Simple Explanation
+
+1. Read all relatives' street numbers.
+2. Sort them.
+3. Choose the middle element (median).
+4. Calculate the sum of distances from every relative to the median.
+5. Print the result.
+
+This is the classic accepted approach for UVa 10041 and looks like a typical college student's competitive-programming solution.

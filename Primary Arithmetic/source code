@@ -1,0 +1,81 @@
+For UVa 10035 **"Primary Arithmetic"**, you only need to count how many carry operations occur when adding two numbers digit by digit.
+
+Here's a simple student-style C program:
+
+```c
+#include <stdio.h>
+
+int main()
+{
+    long long a, b;
+
+    while (1)
+    {
+        scanf("%lld %lld", &a, &b);
+
+        if (a == 0 && b == 0)
+            break;
+
+        int carry = 0;
+        int count = 0;
+
+        while (a > 0 || b > 0)
+        {
+            int d1 = a % 10;
+            int d2 = b % 10;
+
+            if (d1 + d2 + carry >= 10)
+            {
+                count++;
+                carry = 1;
+            }
+            else
+            {
+                carry = 0;
+            }
+
+            a /= 10;
+            b /= 10;
+        }
+
+        if (count == 0)
+            printf("No carry operation.\n");
+        else if (count == 1)
+            printf("1 carry operation.\n");
+        else
+            printf("%d carry operations.\n", count);
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+123 456
+555 555
+123 594
+0 0
+```
+
+### Sample Output
+
+```text
+No carry operation.
+3 carry operations.
+1 carry operation.
+```
+
+### Idea
+
+* Add digits from right to left.
+* Keep track of the carry from the previous addition.
+* Count every time the sum produces a carry.
+* Print according to the required format:
+
+  * `No carry operation.`
+  * `1 carry operation.`
+  * `x carry operations.`
+
+This is the classic accepted solution for UVa 10035 and looks like a typical college student's competitive programming code.

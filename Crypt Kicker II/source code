@@ -1,0 +1,119 @@
+For UVa 850 **"Crypt Kicker II"**, a straightforward student-style solution is to use the known sentence:
+
+```text
+the quick brown fox jumps over the lazy dog
+```
+
+If any encrypted line can map to this sentence, build the substitution table and decode all lines in that test case.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    int t;
+    scanf("%d", &t);
+    getchar();
+    getchar();
+
+    char target[] = "the quick brown fox jumps over the lazy dog";
+
+    while(t--)
+    {
+        char lines[110][100];
+        int n = 0;
+
+        while(fgets(lines[n], sizeof(lines[n]), stdin))
+        {
+            if(lines[n][0] == '\n')
+                break;
+
+            lines[n][strcspn(lines[n], "\n")] = '\0';
+            n++;
+        }
+
+        int found = 0;
+        char map[256] = {0};
+        char used[256] = {0};
+
+        for(int i = 0; i < n; i++)
+        {
+            if(strlen(lines[i]) != strlen(target))
+                continue;
+
+            memset(map, 0, sizeof(map));
+            memset(used, 0, sizeof(used));
+
+            int ok = 1;
+
+            for(int j = 0; target[j]; j++)
+            {
+                char c1 = lines[i][j];
+                char c2 = target[j];
+
+                if(c2 == ' ')
+                {
+                    if(c1 != ' ')
+                    {
+                        ok = 0;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(map[(int)c1] == 0)
+                    {
+                        if(used[(int)c2])
+                        {
+                            ok = 0;
+                            break;
+                        }
+
+                        map[(int)c1] = c2;
+                        used[(int)c2] = 1;
+                    }
+                    else if(map[(int)c1] != c2)
+                    {
+                        ok = 0;
+                        break;
+                    }
+                }
+            }
+
+            if(ok)
+            {
+                found = 1;
+
+                for(int k = 0; k < n; k++)
+                {
+                    for(int j = 0; lines[k][j]; j++)
+                    {
+                        if(lines[k][j] == ' ')
+                            printf(" ");
+                        else
+                            printf("%c", map[(int)lines[k][j]]);
+                    }
+                    printf("\n");
+                }
+                break;
+            }
+        }
+
+        if(!found)
+            printf("No solution.\n");
+
+        if(t)
+            printf("\n");
+    }
+
+    return 0;
+}
+```
+
+### Why it looks student-written
+
+* Uses simple arrays and loops.
+* No structs, STL, hash maps, or advanced techniques.
+* Direct implementation of the problem statement.
+* Easy to explain in an exam or viva.

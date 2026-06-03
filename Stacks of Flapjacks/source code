@@ -1,0 +1,100 @@
+For UVa 120 **"Stacks of Flapjacks"**, a straightforward student-style solution is to repeatedly bring the largest unsorted pancake to the top, then flip it into its correct position.
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+void flip(int a[], int k)
+{
+    int i = 0, j = k;
+
+    while(i < j)
+    {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+        i++;
+        j--;
+    }
+}
+
+int main()
+{
+    char line[1000];
+
+    while(fgets(line, sizeof(line), stdin))
+    {
+        int a[35];
+        int n = 0;
+
+        char *p = strtok(line, " \n");
+
+        while(p != NULL)
+        {
+            a[n++] = atoi(p);
+            p = strtok(NULL, " \n");
+        }
+
+        for(int i = 0; i < n; i++)
+        {
+            if(i) printf(" ");
+            printf("%d", a[i]);
+        }
+        printf("\n");
+
+        for(int curr = n - 1; curr > 0; curr--)
+        {
+            int maxPos = 0;
+
+            for(int i = 1; i <= curr; i++)
+            {
+                if(a[i] > a[maxPos])
+                    maxPos = i;
+            }
+
+            if(maxPos == curr)
+                continue;
+
+            if(maxPos != 0)
+            {
+                flip(a, maxPos);
+                printf("%d ", n - maxPos);
+            }
+
+            flip(a, curr);
+            printf("%d ", n - curr);
+        }
+
+        printf("0\n");
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+1 2 3 4
+4 3 2 1
+```
+
+### Sample Output
+
+```text
+1 2 3 4
+0
+4 3 2 1
+1 0
+```
+
+### Idea
+
+* Find the largest pancake in the unsorted portion.
+* Flip it to the top (if needed).
+* Flip it again to move it to its final position.
+* Repeat until the stack is sorted.
+* End each sequence by printing `0`.
+
+This version uses only arrays, loops, and a simple `flip()` function, making it look like a typical student competitive-programming submission.

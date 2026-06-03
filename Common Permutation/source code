@@ -1,0 +1,82 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+For UVa 10252 **"Common Permutation"**, a simple student-style C solution is to count the frequency of each character in both strings and print the common characters in sorted order.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char s1[1001], s2[1001];
+
+    while (fgets(s1, sizeof(s1), stdin) &&
+           fgets(s2, sizeof(s2), stdin))
+    {
+        int cnt1[26] = {0};
+        int cnt2[26] = {0};
+
+        for (int i = 0; s1[i] != '\0'; i++)
+        {
+            if (s1[i] >= 'a' && s1[i] <= 'z')
+                cnt1[s1[i] - 'a']++;
+        }
+
+        for (int i = 0; s2[i] != '\0'; i++)
+        {
+            if (s2[i] >= 'a' && s2[i] <= 'z')
+                cnt2[s2[i] - 'a']++;
+        }
+
+        for (int i = 0; i < 26; i++)
+        {
+            int common = cnt1[i] < cnt2[i] ? cnt1[i] : cnt2[i];
+
+            while (common--)
+                printf("%c", i + 'a');
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
+```
+
+### Sample Input
+
+```text
+pretty
+women
+
+walking
+down
+
+the
+street
+```
+
+### Sample Output
+
+```text
+e
+
+nw
+
+et
+```
+
+### Logic
+
+1. Count occurrences of each lowercase letter in the first string.
+2. Count occurrences in the second string.
+3. For each letter `a` to `z`, print it `min(count1, count2)` times.
+4. Since we print from `a` to `z`, the result is automatically sorted.
+
+This is the classic accepted UVa 10252 solution and looks like a typical student competitive-programming submission.

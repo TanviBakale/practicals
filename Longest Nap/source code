@@ -1,0 +1,114 @@
+For UVa 10191 **"Longest Nap"**, a simple student-style solution is to:
+
+1. Convert all appointment times to minutes.
+2. Sort the appointments by start time.
+3. Check the free gaps between:
+
+   * 10:00 AM (600 minutes)
+   * consecutive appointments
+   * the last appointment and 6:00 PM (1080 minutes)
+4. Find the longest gap.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+typedef struct
+{
+    int start;
+    int end;
+} Meeting;
+
+int main()
+{
+    int n;
+    int day = 1;
+
+    while (scanf("%d", &n) == 1)
+    {
+        Meeting a[110];
+
+        for (int i = 0; i < n; i++)
+        {
+            int h1, m1, h2, m2;
+            char desc[300];
+
+            scanf("%d:%d %d:%d", &h1, &m1, &h2, &m2);
+            fgets(desc, sizeof(desc), stdin);
+
+            a[i].start = h1 * 60 + m1;
+            a[i].end = h2 * 60 + m2;
+        }
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            for (int j = i + 1; j < n; j++)
+            {
+                if (a[i].start > a[j].start)
+                {
+                    Meeting temp = a[i];
+                    a[i] = a[j];
+                    a[j] = temp;
+                }
+            }
+        }
+
+        int bestStart = 600;   // 10:00
+        int bestLen = 0;
+
+        if (n > 0)
+        {
+            if (a[0].start - 600 > bestLen)
+            {
+                bestLen = a[0].start - 600;
+                bestStart = 600;
+            }
+
+            for (int i = 1; i < n; i++)
+            {
+                int gap = a[i].start - a[i - 1].end;
+
+                if (gap > bestLen)
+                {
+                    bestLen = gap;
+                    bestStart = a[i - 1].end;
+                }
+            }
+
+            if (1080 - a[n - 1].end > bestLen)
+            {
+                bestLen = 1080 - a[n - 1].end;
+                bestStart = a[n - 1].end;
+            }
+        }
+        else
+        {
+            bestLen = 480;
+            bestStart = 600;
+        }
+
+        printf("Day #%d: the longest nap starts at %02d:%02d and will last for ",
+               day++,
+               bestStart / 60,
+               bestStart % 60);
+
+        if (bestLen >= 60)
+            printf("%d hours and %d minutes.\n",
+                   bestLen / 60,
+                   bestLen % 60);
+        else
+            printf("%d minutes.\n", bestLen);
+    }
+
+    return 0;
+}
+```
+
+### Why this looks student-written
+
+* Uses a simple `struct`.
+* Uses bubble/selection-style sorting instead of advanced library functions.
+* Straightforward minute conversion.
+* No STL, maps, or complex optimizations.
+
+This is the standard accepted approach for UVa 10191 **Longest Nap**.
